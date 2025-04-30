@@ -33,8 +33,8 @@ Let's configure AWS CLI
 aws configure
 ```
 
-### Let's begin with deploying the project
-lets create a cluster using AWS CLI
+### Let's begin with deploying the Application
+Create a cluster using AWS CLI
 
 ```cli
 eksctl create cluster --name demo-cluster --region us-east-1 --fargate
@@ -44,3 +44,16 @@ eksctl create cluster --name demo-cluster --region us-east-1 --fargate
 aws eks update-kubeconfig --name demo-cluster --region us-east-1
 ```
 
+Create Fargate profile
+```cli
+eksctl create fargateprofile \
+    --cluster demo-cluster \
+    --region us-east-1 \
+    --name alb-sample-app \
+    --namespace game-2048
+```
+
+Deploy the deployment, service and Ingress
+```cli
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
+```

@@ -1,4 +1,4 @@
-# 2048_app_game / AWS Elastic Kubernetes/ end to end project
+# 2048_app_game / AWS Elastic Kubernetes/ End to End project
 
-# Pre-requisite
+## Pre-requisite
 

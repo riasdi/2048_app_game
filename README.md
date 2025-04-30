@@ -1,1 +1,1 @@
-# 2048_app_game
+# 2048_app_game / AWS Elastic Kubernetes/ end to end project

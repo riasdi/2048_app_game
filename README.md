@@ -27,3 +27,20 @@ unzip awscli-bundle.zip
 sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 aws --version
 ```
+
+Let's configure AWS CLI
+```bash
+aws configure
+```
+
+### Let's begin with deploying the project
+lets create a cluster using AWS CLI
+
+```cli
+eksctl create cluster --name demo-cluster --region us-east-1 --fargate
+```
+
+```cli
+aws eks update-kubeconfig --name demo-cluster --region us-east-1
+```
+

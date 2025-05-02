@@ -57,3 +57,66 @@ Deploy the deployment, service and Ingress
 ```cli
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
 ```
+
+Lets check if the pods, services are running
+
+```cli
+kubectl get pods -n game-2048
+kubectl get svc -n game-2048
+kubectl get ingress -n game-2048
+```
+IAM OIDC provider
+```cli
+eksctl utils associate-iam-oidc-provider --cluster demo-cluster --approve
+```
+Download IAM policy
+```cli
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+```
+
+Create IAM Policy
+```cli
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy.json
+```
+
+Create IAM Role
+```cli
+eksctl create iamserviceaccount \
+  --cluster=demo-cluster \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --attach-policy-arn=arn:aws:iam::<your-aws-account-id>:policy/AWSLoadBalancerControllerIAMPolicy \
+  --approve
+```
+
+## Deploying ALB controller
+Add helm repo
+```cli
+helm repo add eks https://aws.github.io/eks-charts
+```
+Update the repo
+```cli
+helm repo update eks
+```
+Install ALB Controller
+```cli
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \            
+  -n kube-system \
+  --set clusterName=demo-cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller \
+  --set region=us-east-1 \
+  --set vpcId=<your-vpc-id>
+```
+
+Verify that the deployments are running
+``cli
+kubectl get deployment -n kube-system aws-load-balancer-controller
+```
+Check for ingress and open the address in new tab
+```cli
+kubectl get ingress -n game-2048
+```

@@ -113,7 +113,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 ```
 
 Verify that the deployments are running
-``cli
+```cli
 kubectl get deployment -n kube-system aws-load-balancer-controller
 ```
 Check for ingress and open the address in new tab

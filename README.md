@@ -123,3 +123,28 @@ kubectl get ingress -n game-2048
 ```
 ![Screenshot 2025-05-06 175705](https://github.com/user-attachments/assets/2cce4de5-be20-41e4-a817-e65aa39932e6)
 
+## Deletion of Created Resources
+
+```cli
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
+
+eksctl delete fargateprofile \
+  --cluster demo-cluster \
+  --name alb-sample-app \
+  --region us-east-1
+
+helm uninstall aws-load-balancer-controller -n kube-system
+
+eksctl delete iamserviceaccount \
+  --cluster demo-cluster \
+  --name aws-load-balancer-controller \
+  --namespace kube-system \
+  --region us-east-1
+
+aws iam list-policies | grep AWSLoadBalancerControllerIAMPolicy
+
+aws iam delete-policy --policy-arn <policy-arn>
+
+eksctl delete cluster --name demo-cluster --region us-east-1
+
+```

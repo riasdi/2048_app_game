@@ -71,7 +71,7 @@ eksctl utils associate-iam-oidc-provider --cluster demo-cluster --approve
 ```
 Download IAM policy
 ```cli
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy.json
 ```
 
 Create IAM Policy
@@ -113,9 +113,13 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n ku
 
 Verify if the deployment is running
 ```cli
+
+
 kubectl get deployment -n kube-system aws-load-balancer-controller
 ```
 Check for ingress and open the address in new-tab
 ```cli
 kubectl get ingress -n game-2048
 ```
+![Screenshot 2025-05-06 175705](https://github.com/user-attachments/assets/2cce4de5-be20-41e4-a817-e65aa39932e6)
+
